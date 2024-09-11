@@ -10,18 +10,37 @@
 #include "ai.h"
 #include "controller.h"
 
+typedef struct{
+    std::vector <GameModel> future;
+    float minimax;
+}Tree_Nodes_t;
+
+typedef struct{
+
+}Tree_t;
+
+
 Square getBestMove(GameModel &model)
 {
     // To-do: your code goes here...
-
+    Moves validMoves;
+    unsigned int k;
+    for (k = 0; k < validMoves.size(); k++)
+    {
+        
+    }
+    
+    
 
 
     // +++ TEST
     // Returns a random valid move...
+    /*
     Moves validMoves;
     getValidMoves(model, validMoves);
 
     int index = rand() % validMoves.size();
     return validMoves[index];
+    */
     // --- TEST
 }
