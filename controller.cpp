@@ -15,6 +15,7 @@
 
 bool updateView(GameModel &model)
 {
+    static Square lastMove = {-1, -1};
     if (WindowShouldClose())
         return false;
 
@@ -52,8 +53,12 @@ bool updateView(GameModel &model)
                 for (auto move : validMoves)
                 {
                     if ((square.x == move.x) &&
-                        (square.y == move.y))
+                        (square.y == move.y)) {
                         playMove(model, square);
+                        lastMove = square;
+                    }
+                    
+                        
                 }
             }
         }
@@ -61,8 +66,8 @@ bool updateView(GameModel &model)
     else
     {
         // AI player
-        Square square = getBestMove(model);
-
+        Square square = getBestMove(model, lastMove);
+        
         playMove(model, square);
     }
 

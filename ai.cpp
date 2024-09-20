@@ -12,12 +12,14 @@
 #include "model.h"
 #define MAX_NODE_COUNT 5000
 
+/*
 static bool compareBoards(GameModel& model1, GameModel& model2)
 {
     for (unsigned int a = 0; a < BOARD_SIZE; a++)
     {
         for (unsigned int b = 0; b < BOARD_SIZE; b++)
         {
+            
             if (getBoardPiece(model1, (Square){a,b}) 
             != getBoardPiece(model1, (Square){a,b}))
             {
@@ -27,7 +29,7 @@ static bool compareBoards(GameModel& model1, GameModel& model2)
     }
 
     return 1;
-}
+}*/
 
 
 
@@ -78,7 +80,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
 
 Tree_t gameTree;
 
-Square getBestMove(GameModel &model)
+Square getBestMove(GameModel &model, Square lastMove)
 {
     //Caso inicial
     if (gameTree.front == NULL)
