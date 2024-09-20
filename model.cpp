@@ -91,14 +91,8 @@ void getValidMoves(GameModel &model, Moves &validMoves)
     // To-do: your code goes here...
 
     for (int y = 0; y < BOARD_SIZE; y++)
+        for (int x = 0; x < BOARD_SIZE; x++) 
         {
-<<<<<<< HEAD
-            for (int x = 0; x < BOARD_SIZE; x++) 
-            {
-                Square move = {x, y};
-                if (getBoardPiece(model, move) == PIECE_EMPTY)
-                    validMoves.push_back(move);
-=======
             Square move = {x, y};
 
             // +++ TEST
@@ -106,7 +100,7 @@ void getValidMoves(GameModel &model, Moves &validMoves)
             if (getBoardPiece(model, move) == PIECE_EMPTY)
                 validMoves.push_back(move);
             // --- TEST
-             // Si la posición ya esta ocupada no es un movimiento valido 
+             // Si la posiciï¿½n ya esta ocupada no es un movimiento valido 
             if (pos != PIECE_EMPTY) {
                 continue;
             }
@@ -121,7 +115,7 @@ void getValidMoves(GameModel &model, Moves &validMoves)
                         Square check_piece = { x + i, y + j };
 
                         for (int steps = 0; isSquareValid(check_piece); steps++) {
-                            // Obtenemos una pieza desplazandonos en una dirección
+                            // Obtenemos una pieza desplazandonos en una direcciï¿½n
                             Piece directional_piece = getBoardPiece(model, check_piece);
                             if (directional_piece == PIECE_EMPTY) {
                                 break;
@@ -135,7 +129,7 @@ void getValidMoves(GameModel &model, Moves &validMoves)
                                     break;
                                 }
                             }
-                            // Si la pieza es blanca avanzo en la dirección
+                            // Si la pieza es blanca avanzo en la direcciï¿½n
                             check_piece = { x + (steps + 2) * i, y + (steps + 2) * j };
 
                         }
@@ -151,7 +145,7 @@ void getValidMoves(GameModel &model, Moves &validMoves)
                         Square check_piece = { x + i, y + j };
                         bool valid_piece = 0;
                         for (int steps = 0; isSquareValid(check_piece); steps++) {
-                            // Obtenemos una pieza desplazandonos en una dirección
+                            // Obtenemos una pieza desplazandonos en una direcciï¿½n
                             Piece directional_piece = getBoardPiece(model, check_piece);
                             if (directional_piece == PIECE_EMPTY) {
                                 break;
@@ -165,13 +159,12 @@ void getValidMoves(GameModel &model, Moves &validMoves)
                                     break;
                                 }
                             }
-                            // Si la pieza es blanca avanzo en la dirección
+                            // Si la pieza es blanca avanzo en la direcciï¿½n
                             check_piece = { x + (steps + 2) * i, y + (steps + 2) * j };
 
                         }
                     }
                 }
->>>>>>> a82ffd7c2381ba2e1e785c69043ff4089d60d882
             }
         }
 }
@@ -186,28 +179,18 @@ bool playMove(GameModel &model, Square move)
 
     setBoardPiece(model, move, piece);
 
-    
+    // To-do: your code goes here...
 
-    /**
-     * First, we look at which directions pieces should be swapped,
-     * then, we execute it. We start from the square above the 
-     * chosen one for the move, and analyze clockwise.
-     */
-    for 
-    
     // Update timer
     double currentTime = GetTime();
     model.playerTime[model.currentPlayer] += currentTime - model.turnTimer;
     model.turnTimer = currentTime;
 
-
-
-    // Swap player to check for Game Over
+    // Swap player
     model.currentPlayer =
         (model.currentPlayer == PLAYER_WHITE)
             ? PLAYER_BLACK
             : PLAYER_WHITE;
-
 
     // Game over?
     Moves validMoves;
