@@ -12,7 +12,22 @@
 #include "model.h"
 #define MAX_NODE_COUNT 5000
 
+static bool compareBoards(GameModel& model1, GameModel& model2)
+{
+    for (unsigned int a = 0; a < BOARD_SIZE; a++)
+    {
+        for (unsigned int b = 0; b < BOARD_SIZE; b++)
+        {
+            if (getBoardPiece(model1, (Square){a,b}) 
+            != getBoardPiece(model1, (Square){a,b}))
+            {
+                return 0;
+            }
+        }
+    }
 
+    return 1;
+}
 
 
 
