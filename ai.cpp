@@ -31,7 +31,7 @@ typedef struct{
     Tree_Nodes_t * front;
     Player aiPlayer;
 }Tree_t;
-
+Tree_t gameTree;
 static void buildTree(GameModel& currentModel, Tree_Nodes_t& ptr , unsigned int nodeCount);
 static void deleteTree(Tree_Nodes_t * tree);
 static float evaluateNode(GameModel& currentModel);
@@ -42,7 +42,7 @@ static float evaluateNode(GameModel& currentModel)
 {
     if (currentModel.gameOver == true)
     {
-        if (getScore(currentModel,gameTree.aiPlayer) >=
+        if (getScore(currentModel, gameTree.aiPlayer) >=
             getScore(currentModel,currentModel.humanPlayer))
         {
             return INFINITY;
@@ -122,9 +122,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
     
 }
 
-
-Tree_t gameTree;
-
+#define BRANCHES_LEVEL 10
 
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
@@ -136,12 +134,12 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
         model.humanPlayer == PLAYER_BLACK
                              ? gameTree.aiPlayer = PLAYER_WHITE
                              : gameTree.aiPlayer = PLAYER_BLACK;
-        buildTree(gameTree.front, 4);
+        buildTree(*gameTree.front, BRANCHES_LEVEL);
     }
     
     if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
     {
-        for (auto i : gameTree.front->nextStates)
+        for (auto &i : gameTree.front->nextStates)
         {
             if ((i.previousMovement.x == lastHumanMovement.x) &&
                 (i.previousMovement.y == lastHumanMovement.y))
