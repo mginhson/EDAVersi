@@ -100,6 +100,72 @@ void getValidMoves(GameModel &model, Moves &validMoves)
             if (getBoardPiece(model, move) == PIECE_EMPTY)
                 validMoves.push_back(move);
             // --- TEST
+             // Si la posición ya esta ocupada no es un movimiento valido 
+            if (pos != PIECE_EMPTY) {
+                continue;
+            }
+            // Si el jugador es el negro
+            if (player == PLAYER_BLACK) {
+                // Recorremos todas las direcciones alrededor de la pieza
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (j == 0 && i == 0) {
+                            continue;
+                        }
+                        Square check_piece = { x + i, y + j };
+
+                        for (int steps = 0; isSquareValid(check_piece); steps++) {
+                            // Obtenemos una pieza desplazandonos en una dirección
+                            Piece directional_piece = getBoardPiece(model, check_piece);
+                            if (directional_piece == PIECE_EMPTY) {
+                                break;
+                            }
+                            else if (directional_piece == PIECE_BLACK) {
+                                if (steps == 0) {
+                                    break;
+                                }
+                                else {
+                                    validMoves.push_back(move);
+                                    break;
+                                }
+                            }
+                            // Si la pieza es blanca avanzo en la dirección
+                            check_piece = { x + (steps + 2) * i, y + (steps + 2) * j };
+
+                        }
+                    }
+                }
+            }
+            else if (player == PLAYER_WHITE) {
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (j == 0 && i == 0) {
+                            continue;
+                        }
+                        Square check_piece = { x + i, y + j };
+                        bool valid_piece = 0;
+                        for (int steps = 0; isSquareValid(check_piece); steps++) {
+                            // Obtenemos una pieza desplazandonos en una dirección
+                            Piece directional_piece = getBoardPiece(model, check_piece);
+                            if (directional_piece == PIECE_EMPTY) {
+                                break;
+                            }
+                            else if (directional_piece == PIECE_WHITE) {
+                                if (steps == 0) {
+                                    break;
+                                }
+                                else {
+                                    validMoves.push_back(move);
+                                    break;
+                                }
+                            }
+                            // Si la pieza es blanca avanzo en la dirección
+                            check_piece = { x + (steps + 2) * i, y + (steps + 2) * j };
+
+                        }
+                    }
+                }
+            }
         }
 }
 
