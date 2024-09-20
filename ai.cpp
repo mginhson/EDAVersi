@@ -42,11 +42,8 @@ static float evaluateNode(GameModel& currentModel)
 {
     if (currentModel.gameOver == true)
     {
-<<<<<<< HEAD
-        if (getScore(currentModel,gameTreep.aiPlayer) >=
-=======
+        
         if (getScore(currentModel, gameTree.aiPlayer) >=
->>>>>>> 338d4f97b00525104d166822f181c5fce3421ce9
             getScore(currentModel,currentModel.humanPlayer))
         {
             return INFINITY;
@@ -58,7 +55,7 @@ static float evaluateNode(GameModel& currentModel)
     }
     else
     {
-        getScore()
+        
         if (getScore(currentModel,gameTree.aiPlayer) >=
             getScore(currentModel,currentModel.humanPlayer))
         {
@@ -127,7 +124,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
     
 }
 
-#define BRANCHES_LEVEL 10
+#define BRANCHES_LEVEL 4
 
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
@@ -144,17 +141,12 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
     
     if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
     {
-<<<<<<< HEAD
-        auto advanceTo = gameTree.front->nextStates;
-        for (auto i : gameTree.front->nextStates)
-=======
         for (auto &i : gameTree.front->nextStates)
->>>>>>> 338d4f97b00525104d166822f181c5fce3421ce9
         {
             if ((i.previousMovement.x == lastHumanMovement.x) &&
                 (i.previousMovement.y == lastHumanMovement.y))
             {
-                advanceTo = i;
+                gameTree.front = &i;
             }
             else
             {
@@ -167,34 +159,23 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
      * Tree's head
      */
     
+    
+    Tree_Nodes_t advanceTo = gameTree.front->nextStates.front();
 
-
-
-    Moves validMoves;
-    getValidMoves(model, validMoves);
-
-    if (validMoves.size() == 0)
+    for (auto &i : gameTree.front->nextStates)
     {
-        
+        if (advanceTo.minimax < i.minimax)
+            advanceTo = i;
+
     }
-    for (auto i : validMoves)
-    {
-        GameModel tempModel = model;
-        playMove(tempModel,i);
-        
-    }
+    return advanceTo.previousMovement;
+    
     
     
 
 
-    // +++ TEST
-    // Returns a random valid move...
-    
-    
-    getValidMoves(model, validMoves);
 
-    int index = rand() % validMoves.size();
-    return validMoves[index];
     
-    // --- TEST
+    
+    
 }
