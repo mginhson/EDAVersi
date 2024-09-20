@@ -9,7 +9,7 @@
 #include <forward_list>
 #include "ai.h"
 #include "controller.h"
-
+#include "model.h"
 #define MAX_NODE_COUNT 5000
 
 
@@ -18,7 +18,9 @@
 
 
 typedef struct{
-    std::forward_list <GameModel> future;
+    //std::forward_list <GameModel> future;
+    GameModel proposedGameModel;
+    std::forward_list<Tree_Nodes_t> nextStates;
     float minimax;
     unsigned int nodeCount;
 }Tree_Nodes_t;
@@ -27,12 +29,33 @@ typedef struct{
     Tree_Nodes_t * front;
 }Tree_t;
 
-static void buildTree(GameModel& currentModel, Tree_Nodes_t * ptr , unsigned int nodeCount);
+static void buildTree(GameModel& currentModel, Tree_Nodes_t& ptr , unsigned int nodeCount);
 static void deleteTree(Tree_Nodes_t * branch);
 static float evaluateNode(GameModel& currentModel);
 static float traverseTree(GameModel& currentModel);
 
+//Tree_Nodes_t asfa;
+//buildTree(currentModel, asfa, );
 
+static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
+    if (levelCount == 0) {
+        return;
+    }
+    Moves validMoves;
+    getValidMoves(currentState.proposedGameModel, validMoves);
+    for (auto &move : validMoves) {
+        Tree_Nodes_t* newNode = new Tree_Nodes_t;
+        
+        newNode->proposedGameModel = currentState.proposedGameModel;
+        playMove(newNode->proposedGameModel, move);
+        currentState.nextStates.push_front(newNode);
+
+    }
+    for (auto &node : currentState.nextStates) {
+        buildTree(node, levelCount - 1);
+    }
+    
+}
 
 
 
