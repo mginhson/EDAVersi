@@ -16,5 +16,4 @@
  * @return The best move.
  */
 Square getBestMove(GameModel &model, Square lastMovement);
-void initAI(void);
 #endif

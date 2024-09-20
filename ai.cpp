@@ -37,6 +37,21 @@ static float traverseTree(GameModel& currentModel);
 
 //Tree_Nodes_t asfa;
 //buildTree(currentModel, asfa, );
+static void traverseTree(Tree_Nodes_t& treeNode) {
+    
+    if (treeNode.nextStates.empty()) {
+        // Quiero llamara la función que evalua un nodo
+        return;
+    }   
+    treeNode.minimax = 0;   
+     // visitPreorder(node);
+    for (auto &childNode : treeNode.nextStates) {
+        traverseTree(childNode);
+        treeNode.minimax += childNode.minimax;
+    }
+    // Visit Postorder
+    
+}
 
 static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
     if (levelCount == 0) {
@@ -62,7 +77,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
 
 Tree_t gameTree;
 
-
+#define MOVEMENTS_TO_PREDICT 20
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
     //Caso inicial
@@ -70,7 +85,7 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
     {
         gameTree.front = new Tree_Nodes_t;
         gameTree.front->proposedGameModel = model; //copy the model
-        //buildTree(gameTree.front, 4);
+        buildTree((*(gameTree.front)), MOVEMENTS_TO_PREDICT);
     }
     
     if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
