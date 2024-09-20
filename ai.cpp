@@ -122,7 +122,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
     
 }
 
-#define BRANCHES_LEVEL 10
+#define BRANCHES_LEVEL 4
 
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
