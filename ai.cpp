@@ -32,7 +32,7 @@ typedef struct{
 static void buildTree(GameModel& currentModel, Tree_Nodes_t& ptr , unsigned int nodeCount);
 static void deleteTree(Tree_Nodes_t * branch);
 static float evaluateNode(GameModel& currentModel);
-static float traverseTree(GameModel& currentModel);
+static float traverseTree(Tree_Nodes_t& treeNode);
 
 
 //Tree_Nodes_t asfa;
