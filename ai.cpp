@@ -23,6 +23,7 @@ typedef struct{
     std::forward_list<Tree_Nodes_t> nextStates;
     float minimax;
     unsigned int nodeCount;
+    Square movementMadePreviously;
 }Tree_Nodes_t;
 
 typedef struct{
@@ -49,6 +50,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
         
         newNode->proposedGameModel = currentState.proposedGameModel;
         playMove(newNode->proposedGameModel, move);
+        newNode->movementMadePreviously = move;
         currentState.nextStates.push_front(newNode);
 
     }
@@ -69,6 +71,10 @@ Square getBestMove(GameModel &model)
         gameTree.front = new Tree_Nodes_t;
         gameTree.front->proposedGameModel = model; //copy the model
     }
+    else {
+
+    }
+
     /**
      * We now need to trim the moves that won't be used, and advance the 
      * Tree's head
