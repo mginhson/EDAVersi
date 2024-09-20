@@ -22,6 +22,7 @@ typedef struct Tree_Nodes_t{
     std::forward_list<struct Tree_Nodes_t> nextStates;
     float minimax;
     unsigned int nodeCount;
+    Square movementMadePreviously;
 }Tree_Nodes_t;
 
 typedef struct{
