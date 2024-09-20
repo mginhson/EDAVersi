@@ -162,8 +162,83 @@ bool playMove(GameModel& model, Square move)
 
 	setBoardPiece(model, move, piece);
 
-	// To-do: your code goes here...
 
+	
+	Player player = getCurrentPlayer(model);
+	Piece playerColor;
+
+	player == PLAYER_WHITE
+						? playerColor = PIECE_WHITE
+						: playerColor = PIECE_BLACK;
+
+			
+			
+
+	// Recorremos todas las direcciones alrededor de la pieza
+	for (int i = -1; i <= 1 ; i++) 
+	{
+		for (int j = -1; j <= 1 ; j++) 
+		{
+			if ((j == 0 && i == 0)) 
+			{
+				continue;
+			}
+			
+			Square directionalSquare = move;
+			
+			bool shouldDirectionBeFlipped = 0,exitFlag = 0, validStart = 0;
+			
+			do
+			{
+			
+				//Advance in the said direction
+				directionalSquare.x += i;
+				directionalSquare.y += j;
+
+				if (isSquareValid(directionalSquare) == 0)
+				{
+					exitFlag = 1;
+					continue;
+				}
+				
+				Piece pointingPiece = getBoardPiece(model, directionalSquare);
+				
+				if (pointingPiece == PIECE_EMPTY)
+					exitFlag = 1;
+				else if (pointingPiece == playerColor)
+				{
+					exitFlag = 1;
+					if (validStart) //There's at least one opposite piece between 2 of ours
+						shouldDirectionBeFlipped = 1;
+				}	
+				else //pointingPiece is the opposite to playerColor 
+					validStart = 1;
+
+			} while (exitFlag == 0);
+
+			//If shouldDirectionBeFlipped is true, we iterate until we find our same color.
+			//We are sure we will find it because of the previous analysis
+			if (shouldDirectionBeFlipped == 1)
+			{
+				directionalSquare = move;
+				exitFlag = 0;
+				
+				directionalSquare.x += i;
+				directionalSquare.y += j;
+				
+				while(getBoardPiece(model, directionalSquare) != playerColor)
+				{
+					setBoardPiece(model, directionalSquare, playerColor);
+					directionalSquare.x += i;
+					directionalSquare.y += j;
+				}
+			}
+			
+
+		}
+	}	
+
+	
 	// Update timer
 	double currentTime = GetTime();
 	model.playerTime[model.currentPlayer] += currentTime - model.turnTimer;
