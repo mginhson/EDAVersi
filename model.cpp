@@ -91,15 +91,13 @@ void getValidMoves(GameModel &model, Moves &validMoves)
     // To-do: your code goes here...
 
     for (int y = 0; y < BOARD_SIZE; y++)
-        for (int x = 0; x < BOARD_SIZE; x++) 
         {
-            Square move = {x, y};
-
-            // +++ TEST
-            // Lists all empty squares...
-            if (getBoardPiece(model, move) == PIECE_EMPTY)
-                validMoves.push_back(move);
-            // --- TEST
+            for (int x = 0; x < BOARD_SIZE; x++) 
+            {
+                Square move = {x, y};
+                if (getBoardPiece(model, move) == PIECE_EMPTY)
+                    validMoves.push_back(move);
+            }
         }
 }
 
@@ -113,18 +111,28 @@ bool playMove(GameModel &model, Square move)
 
     setBoardPiece(model, move, piece);
 
-    // To-do: your code goes here...
+    
 
+    /**
+     * First, we look at which directions pieces should be swapped,
+     * then, we execute it. We start from the square above the 
+     * chosen one for the move, and analyze clockwise.
+     */
+    for 
+    
     // Update timer
     double currentTime = GetTime();
     model.playerTime[model.currentPlayer] += currentTime - model.turnTimer;
     model.turnTimer = currentTime;
 
-    // Swap player
+
+
+    // Swap player to check for Game Over
     model.currentPlayer =
         (model.currentPlayer == PLAYER_WHITE)
             ? PLAYER_BLACK
             : PLAYER_WHITE;
+
 
     // Game over?
     Moves validMoves;
