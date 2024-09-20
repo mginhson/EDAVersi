@@ -255,7 +255,18 @@ bool playMove(GameModel& model, Square move)
 	getValidMoves(model, validMoves);
 
 	if (validMoves.size() == 0)
-		model.gameOver = true;
+	{
+		//Swap player
+		model.currentPlayer = 
+			(model.currentPlayer == PLAYER_WHITE)
+				? PLAYER_BLACK
+				: PLAYER_WHITE;
+
+		Moves validMoves;
+		getValidMoves(model, validMoves);
+		if (validMoves.size() == 0)
+			model.gameOver = true;
+	}
 
 	return true;
 }
