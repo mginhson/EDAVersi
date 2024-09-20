@@ -42,7 +42,7 @@ static float evaluateNode(GameModel& currentModel)
 {
     if (currentModel.gameOver == true)
     {
-        if (getScore(currentModel,gameTree.aiPlayer) >=
+        if (getScore(currentModel,gameTreep.aiPlayer) >=
             getScore(currentModel,currentModel.humanPlayer))
         {
             return INFINITY;
@@ -54,6 +54,7 @@ static float evaluateNode(GameModel& currentModel)
     }
     else
     {
+        getScore()
         if (getScore(currentModel,gameTree.aiPlayer) >=
             getScore(currentModel,currentModel.humanPlayer))
         {
@@ -141,12 +142,13 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
     
     if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
     {
+        auto advanceTo = gameTree.front->nextStates;
         for (auto i : gameTree.front->nextStates)
         {
             if ((i.previousMovement.x == lastHumanMovement.x) &&
                 (i.previousMovement.y == lastHumanMovement.y))
             {
-                //es este
+                advanceTo = i;
             }
             else
             {
