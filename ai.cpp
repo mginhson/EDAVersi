@@ -28,8 +28,9 @@ typedef struct Tree_Nodes_t{
 }Tree_Nodes_t;
 
 typedef struct{
-    Tree_Nodes_t * front;
+    Tree_Nodes_t front;
     Player aiPlayer;
+    bool firstMove;
 }Tree_t;
 Tree_t gameTree;
 static void buildTree(GameModel& currentModel, Tree_Nodes_t& ptr , unsigned int nodeCount);
@@ -130,24 +131,26 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
     //Caso inicial
-    if (gameTree.front == NULL)
+    if (gameTree.firstMove)
     {
-        gameTree.front = new Tree_Nodes_t;
-        gameTree.front->proposedGameModel = model; //copy the model
+        gameTree.firstMove = true;
+        //gameTree.front = new Tree_Nodes_t;
+        gameTree.front.proposedGameModel = model; //copy the model
         model.humanPlayer == PLAYER_BLACK
                              ? gameTree.aiPlayer = PLAYER_WHITE
                              : gameTree.aiPlayer = PLAYER_BLACK;
-        buildTree(*gameTree.front, BRANCHES_LEVEL);
+        buildTree(gameTree.front, BRANCHES_LEVEL);
     }
     
     if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
     {
-        for (auto &i : gameTree.front->nextStates)
+        for (auto &i : gameTree.front.nextStates)
         {
             if ((i.previousMovement.x == lastHumanMovement.x) &&
                 (i.previousMovement.y == lastHumanMovement.y))
             {
-                gameTree.front = &i;
+
+                gameTree.front = i;
             }
             else
             {
@@ -161,9 +164,9 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
      */
     buildTree(*gameTree.front, BRANCHES_LEVEL);
     
-    Tree_Nodes_t advanceTo = gameTree.front->nextStates.front();
+    Tree_Nodes_t advanceTo = gameTree.front.nextStates.front();
 
-    for (auto &i : gameTree.front->nextStates)
+    for (auto &i : gameTree.front.nextStates)
     {
         if (advanceTo.minimax < i.minimax)
             advanceTo = i;
