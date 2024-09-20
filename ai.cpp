@@ -12,30 +12,14 @@
 #include "model.h"
 #define MAX_NODE_COUNT 5000
 
-static bool compareBoards(GameModel& model1, GameModel& model2)
-{
-    for (unsigned int a = 0; a < BOARD_SIZE; a++)
-    {
-        for (unsigned int b = 0; b < BOARD_SIZE; b++)
-        {
-            if (getBoardPiece(model1, (Square){a,b}) 
-            != getBoardPiece(model1, (Square){a,b}))
-            {
-                return 0;
-            }
-        }
-    }
-
-    return 1;
-}
 
 
 
-
-typedef struct{
+typedef struct Tree_Nodes_t{
     //std::forward_list <GameModel> future;
     GameModel proposedGameModel;
-    std::forward_list<Tree_Nodes_t> nextStates;
+    Square previousMovement;
+    std::forward_list<struct Tree_Nodes_t> nextStates;
     float minimax;
     unsigned int nodeCount;
 }Tree_Nodes_t;
@@ -60,10 +44,11 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
     Moves validMoves;
     getValidMoves(currentState.proposedGameModel, validMoves);
     for (auto &move : validMoves) {
-        Tree_Nodes_t* newNode = new Tree_Nodes_t;
+        struct Tree_Nodes_t newNode;
         
-        newNode->proposedGameModel = currentState.proposedGameModel;
-        playMove(newNode->proposedGameModel, move);
+        newNode.proposedGameModel = currentState.proposedGameModel;
+        newNode.previousMovement = move;
+        playMove(newNode.proposedGameModel, move);
         currentState.nextStates.push_front(newNode);
 
     }
@@ -76,13 +61,31 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
 
 Tree_t gameTree;
 
-Square getBestMove(GameModel &model)
+
+Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
     //Caso inicial
     if (gameTree.front == NULL)
     {
         gameTree.front = new Tree_Nodes_t;
         gameTree.front->proposedGameModel = model; //copy the model
+        //buildTree(gameTree.front, 4);
+    }
+    
+    if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
+    {
+        for (auto i : gameTree.front->nextStates)
+        {
+            if ((i.previousMovement.x == lastHumanMovement.x) &&
+                (i.previousMovement.y == lastHumanMovement.y))
+            {
+                //es este
+            }
+            else
+            {
+                //borrar el subtree
+            }
+        }
     }
     /**
      * We now need to trim the moves that won't be used, and advance the 
