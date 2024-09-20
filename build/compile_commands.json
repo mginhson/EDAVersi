@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/mginhson/Desktop/EDA/EDAVersi/build",
+  "command": "/usr/bin/c++  -isystem /home/mginhson/dev/vcpkg/installed/x64-linux/include -g -fsanitize=address -fsanitize=undefined -I/home/mginhson/dev/vcpkg/installed/x64-linux/debug/lib/pkgconfig/../../../include -std=gnu++11 -o CMakeFiles/main.dir/main.cpp.o -c /home/mginhson/Desktop/EDA/EDAVersi/main.cpp",
+  "file": "/home/mginhson/Desktop/EDA/EDAVersi/main.cpp"
+},
+{
+  "directory": "/home/mginhson/Desktop/EDA/EDAVersi/build",
+  "command": "/usr/bin/c++  -isystem /home/mginhson/dev/vcpkg/installed/x64-linux/include -g -fsanitize=address -fsanitize=undefined -I/home/mginhson/dev/vcpkg/installed/x64-linux/debug/lib/pkgconfig/../../../include -std=gnu++11 -o CMakeFiles/main.dir/model.cpp.o -c /home/mginhson/Desktop/EDA/EDAVersi/model.cpp",
+  "file": "/home/mginhson/Desktop/EDA/EDAVersi/model.cpp"
+},
+{
+  "directory": "/home/mginhson/Desktop/EDA/EDAVersi/build",
+  "command": "/usr/bin/c++  -isystem /home/mginhson/dev/vcpkg/installed/x64-linux/include -g -fsanitize=address -fsanitize=undefined -I/home/mginhson/dev/vcpkg/installed/x64-linux/debug/lib/pkgconfig/../../../include -std=gnu++11 -o CMakeFiles/main.dir/view.cpp.o -c /home/mginhson/Desktop/EDA/EDAVersi/view.cpp",
+  "file": "/home/mginhson/Desktop/EDA/EDAVersi/view.cpp"
+},
+{
+  "directory": "/home/mginhson/Desktop/EDA/EDAVersi/build",
+  "command": "/usr/bin/c++  -isystem /home/mginhson/dev/vcpkg/installed/x64-linux/include -g -fsanitize=address -fsanitize=undefined -I/home/mginhson/dev/vcpkg/installed/x64-linux/debug/lib/pkgconfig/../../../include -std=gnu++11 -o CMakeFiles/main.dir/controller.cpp.o -c /home/mginhson/Desktop/EDA/EDAVersi/controller.cpp",
+  "file": "/home/mginhson/Desktop/EDA/EDAVersi/controller.cpp"
+},
+{
+  "directory": "/home/mginhson/Desktop/EDA/EDAVersi/build",
+  "command": "/usr/bin/c++  -isystem /home/mginhson/dev/vcpkg/installed/x64-linux/include -g -fsanitize=address -fsanitize=undefined -I/home/mginhson/dev/vcpkg/installed/x64-linux/debug/lib/pkgconfig/../../../include -std=gnu++11 -o CMakeFiles/main.dir/ai.cpp.o -c /home/mginhson/Desktop/EDA/EDAVersi/ai.cpp",
+  "file": "/home/mginhson/Desktop/EDA/EDAVersi/ai.cpp"
+}
+]

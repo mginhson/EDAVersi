@@ -10,6 +10,8 @@
 
 #include <cstdint>
 #include <vector>
+#include <cstring>
+#include <math.h>
 
 #define BOARD_SIZE 8
 

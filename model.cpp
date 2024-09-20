@@ -101,6 +101,9 @@ void getValidMoves(GameModel &model, Moves &validMoves)
                 validMoves.push_back(move);
             // --- TEST
              // Si la posici�n ya esta ocupada no es un movimiento valido 
+            Player player = getCurrentPlayer(model);
+            Piece pos = getBoardPiece(model, move);
+
             if (pos != PIECE_EMPTY) {
                 continue;
             }
