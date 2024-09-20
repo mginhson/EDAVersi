@@ -42,6 +42,7 @@ static float evaluateNode(GameModel& currentModel)
 {
     if (currentModel.gameOver == true)
     {
+        
         if (getScore(currentModel, gameTree.aiPlayer) >=
             getScore(currentModel,currentModel.humanPlayer))
         {
@@ -54,6 +55,7 @@ static float evaluateNode(GameModel& currentModel)
     }
     else
     {
+        
         if (getScore(currentModel,gameTree.aiPlayer) >=
             getScore(currentModel,currentModel.humanPlayer))
         {
@@ -144,7 +146,7 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
             if ((i.previousMovement.x == lastHumanMovement.x) &&
                 (i.previousMovement.y == lastHumanMovement.y))
             {
-                //es este
+                gameTree.front = &i;
             }
             else
             {
@@ -157,34 +159,23 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
      * Tree's head
      */
     
+    
+    Tree_Nodes_t advanceTo = gameTree.front->nextStates.front();
 
-
-
-    Moves validMoves;
-    getValidMoves(model, validMoves);
-
-    if (validMoves.size() == 0)
+    for (auto &i : gameTree.front->nextStates)
     {
-        
+        if (advanceTo.minimax < i.minimax)
+            advanceTo = i;
+
     }
-    for (auto i : validMoves)
-    {
-        GameModel tempModel = model;
-        playMove(tempModel,i);
-        
-    }
+    return advanceTo.previousMovement;
+    
     
     
 
 
-    // +++ TEST
-    // Returns a random valid move...
-    
-    
-    getValidMoves(model, validMoves);
 
-    int index = rand() % validMoves.size();
-    return validMoves[index];
     
-    // --- TEST
+    
+    
 }
