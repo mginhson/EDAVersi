@@ -20,13 +20,23 @@ typedef struct{
 }Tree_t;
 
 
+
+
+
 Square getBestMove(GameModel &model)
 {
     // To-do: your code goes here...
     Moves validMoves;
-    unsigned int k;
-    for (k = 0; k < validMoves.size(); k++)
+    getValidMoves(model, validMoves);
+
+    if (validMoves.size() == 0)
     {
+        
+    }
+    for (auto i : validMoves)
+    {
+        GameModel tempModel = model;
+        playMove(tempModel,i);
         
     }
     
