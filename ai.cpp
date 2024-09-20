@@ -30,13 +30,19 @@ typedef struct{
 }Tree_t;
 
 static void buildTree(GameModel& currentModel, Tree_Nodes_t& ptr , unsigned int nodeCount);
-static void deleteTree(Tree_Nodes_t * branch);
+static void deleteTree(Tree_Nodes_t * tree);
 static float evaluateNode(GameModel& currentModel);
 static void traverseTree(Tree_Nodes_t& treeNode);
 
 
 //Tree_Nodes_t asfa;
 //buildTree(currentModel, asfa, ); 
+// Tengo que recorrer todos los nodos
+/*
+static void deleteTree(Tree_Nodes_t* tree) {
+    if (treeNode.nextStates.)
+}*/
+
 static void traverseTree(Tree_Nodes_t& treeNode) {
     
     if (treeNode.nextStates.empty()) {
