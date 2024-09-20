@@ -34,6 +34,7 @@ static void deleteTree(Tree_Nodes_t * branch);
 static float evaluateNode(GameModel& currentModel);
 static float traverseTree(GameModel& currentModel);
 
+
 //Tree_Nodes_t asfa;
 //buildTree(currentModel, asfa, );
 
@@ -58,10 +59,24 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
 }
 
 
+Tree_t gameTree;
 
 Square getBestMove(GameModel &model)
 {
-    // To-do: your code goes here...
+    //Caso inicial
+    if (gameTree.front == NULL)
+    {
+        gameTree.front = new Tree_Nodes_t;
+        gameTree.front->proposedGameModel = model; //copy the model
+    }
+    /**
+     * We now need to trim the moves that won't be used, and advance the 
+     * Tree's head
+     */
+    
+
+
+
     Moves validMoves;
     getValidMoves(model, validMoves);
 
