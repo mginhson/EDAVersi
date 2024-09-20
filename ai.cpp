@@ -27,7 +27,7 @@ typedef struct{
     Tree_Nodes_t * front;
 }Tree_t;
 
-static void buildTree(GameModel& currentModel, Tree_t * tree , unsigned int nodeCount);
+static void buildTree(GameModel& currentModel, Tree_Nodes_t * ptr , unsigned int nodeCount);
 static void deleteTree(Tree_Nodes_t * branch);
 static float evaluateNode(GameModel& currentModel);
 static float traverseTree(GameModel& currentModel);
