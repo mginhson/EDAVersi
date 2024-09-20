@@ -12,6 +12,11 @@
 
 #define MAX_NODE_COUNT 5000
 
+
+
+
+
+
 typedef struct{
     std::forward_list <GameModel> future;
     float minimax;
@@ -21,6 +26,11 @@ typedef struct{
 typedef struct{
     Tree_Nodes_t * front;
 }Tree_t;
+
+static void buildTree(GameModel& currentModel, Tree_t * tree , unsigned int nodeCount);
+static void deleteTree(Tree_Nodes_t * branch);
+static float evaluateNode(GameModel& currentModel);
+static float traverseTree(GameModel& currentModel);
 
 
 
