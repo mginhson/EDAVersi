@@ -7,6 +7,8 @@
 
 #include <cstdlib>
 #include <forward_list>
+#include <iostream>
+
 #include "ai.h"
 #include "controller.h"
 #include "model.h"
@@ -27,6 +29,7 @@ typedef struct Tree_Nodes_t{
 
 typedef struct{
     Tree_Nodes_t * front;
+    Player aiPlayer;
 }Tree_t;
 
 static void buildTree(GameModel& currentModel, Tree_Nodes_t& ptr , unsigned int nodeCount);
@@ -35,19 +38,64 @@ static float evaluateNode(GameModel& currentModel);
 static void traverseTree(Tree_Nodes_t& treeNode);
 
 
-//Tree_Nodes_t asfa;
-//buildTree(currentModel, asfa, ); 
+static float evaluateNode(GameModel& currentModel)
+{
+    if (currentModel.gameOver == true)
+    {
+        if (getScore(currentModel,gameTree.aiPlayer) >=
+            getScore(currentModel,currentModel.humanPlayer))
+        {
+            return INFINITY;
+        }
+        else
+        {
+            return -INFINITY;
+        }
+    }
+    else
+    {
+        if (getScore(currentModel,gameTree.aiPlayer) >=
+            getScore(currentModel,currentModel.humanPlayer))
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+}
+
+
 static void traverseTree(Tree_Nodes_t& treeNode) {
-    
+    //1 indicates we should maximize, 0 indicates we should minimize
+    bool minmaxParam;
     if (treeNode.nextStates.empty()) {
-        // Quiero llamara la funci�n que evalua un nodo
+        // Quiero llamara la funcion que hace la heuristica
+        treeNode.minimax = evaluateNode(treeNode.proposedGameModel);
         return;
-    }   
-    treeNode.minimax = 0;   
+    }
+
+    if (getCurrentPlayer(treeNode.proposedGameModel) == gameTree.aiPlayer)
+        minmaxParam = 1;
+    else
+        minmaxParam = 0;
+
+    minmaxParam == 1 ? treeNode.minimax = -INFINITY
+                     : treeNode.minimax =  INFINITY;
+
      // visitPreorder(node);
-    for (auto &childNode : treeNode.nextStates) {
+    for (auto &childNode : treeNode.nextStates) 
+    {
         traverseTree(childNode);
-        treeNode.minimax += childNode.minimax;
+        if (minmaxParam == 1) //We want to maximize
+        {
+            treeNode.minimax = std::max(treeNode.minimax, childNode.minimax);
+        }
+        else //We want to minimize
+        {
+            treeNode.minimax = std::min(treeNode.minimax, childNode.minimax);
+        }
     }
     // Visit Postorder
     
@@ -85,6 +133,9 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
     {
         gameTree.front = new Tree_Nodes_t;
         gameTree.front->proposedGameModel = model; //copy the model
+        model.humanPlayer == PLAYER_BLACK
+                             ? gameTree.aiPlayer = PLAYER_WHITE
+                             : gameTree.aiPlayer = PLAYER_BLACK;
         buildTree(gameTree.front, 4);
     }
     
