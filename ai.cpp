@@ -6,17 +6,20 @@
  */
 
 #include <cstdlib>
-
+#include <forward_list>
 #include "ai.h"
 #include "controller.h"
 
+#define MAX_NODE_COUNT 5000
+
 typedef struct{
-    std::vector <GameModel> future;
+    std::forward_list <GameModel> future;
     float minimax;
+    unsigned int nodeCount;
 }Tree_Nodes_t;
 
 typedef struct{
-
+    Tree_Nodes_t * front;
 }Tree_t;
 
 
