@@ -104,18 +104,19 @@ static void traverseTree(Tree_Nodes_t& treeNode) {
 }
 
 static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
+    Tree_Nodes_t placeholder;
     if (levelCount == 0) {
         return;
     }
     Moves validMoves;
     getValidMoves(currentState.proposedGameModel, validMoves);
     for (auto &move : validMoves) {
-        struct Tree_Nodes_t newNode;
         
-        newNode.proposedGameModel = currentState.proposedGameModel;
-        newNode.previousMovement = move;
-        playMove(newNode.proposedGameModel, move);
-        currentState.nextStates.push_front(newNode);
+        
+        placeholder.proposedGameModel = currentState.proposedGameModel;
+        placeholder.previousMovement = move;
+        playMove(placeholder.proposedGameModel, move);
+        currentState.nextStates.push_front(placeholder);
 
     }
     for (auto &node : currentState.nextStates) {
@@ -158,7 +159,7 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
      * We now need to trim the moves that won't be used, and advance the 
      * Tree's head
      */
-    
+    buildTree(*gameTree.front, BRANCHES_LEVEL);
     
     Tree_Nodes_t advanceTo = gameTree.front->nextStates.front();
 
@@ -166,16 +167,8 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
     {
         if (advanceTo.minimax < i.minimax)
             advanceTo = i;
-
     }
-    return advanceTo.previousMovement;
-    
-    
-    
 
 
-
-    
-    
-    
+    return advanceTo.previousMovement;    
 }
