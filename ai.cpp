@@ -36,7 +36,22 @@ static void traverseTree(Tree_Nodes_t& treeNode);
 
 
 //Tree_Nodes_t asfa;
-//buildTree(currentModel, asfa, );
+//buildTree(currentModel, asfa, ); 
+static void traverseTree(Tree_Nodes_t& treeNode) {
+    
+    if (treeNode.nextStates.empty()) {
+        // Quiero llamara la funci�n que evalua un nodo
+        return;
+    }   
+    treeNode.minimax = 0;   
+     // visitPreorder(node);
+    for (auto &childNode : treeNode.nextStates) {
+        traverseTree(childNode);
+        treeNode.minimax += childNode.minimax;
+    }
+    // Visit Postorder
+    
+}
 
 static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
     if (levelCount == 0) {
