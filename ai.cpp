@@ -15,8 +15,9 @@
 #define MAX_NODE_COUNT 5000
 unsigned int nodeCount = 0;
 
-
-
+bool isCorner(int row, int col);
+bool isEdge(int row, int col);
+int evaluateGameState(GameModel& state);
 #define MAX_DEPTH 10
 
 typedef struct{
@@ -106,14 +107,6 @@ const int EDGE_VALUE = 10;
 const int PIECE_VALUE = 1;
 const int MOBILITY_VALUE = 5;
 
-
-
-// Función para contar las jugadas válidas (movilidad)
-int countValidMoves(int player) {
-    // Aquí necesitarías implementar la lógica para contar jugadas válidas
-    // con base en las reglas de Reversi. Esta función es solo un marcador.
-    return 0;
-}
 
 // Función para verificar si una posición es una esquina
 bool isCorner(int row, int col) {
