@@ -130,6 +130,7 @@ static void buildTree(Tree_Nodes_t& currentState, unsigned int levelCount) {
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
     //Caso inicial
+    /*
     if (gameTree.firstMove)
     {
         gameTree.firstMove = true;
@@ -139,16 +140,20 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
                              ? gameTree.aiPlayer = PLAYER_WHITE
                              : gameTree.aiPlayer = PLAYER_BLACK;
         buildTree(gameTree.front, BRANCHES_LEVEL);
-    }
+
+    }*/
     
     if (isSquareValid(lastHumanMovement)) //No fue el primer movimiento
     {
+        std::cout << "Segunda Vez\n";
+        
         for (auto &i : gameTree.front.nextStates)
         {
+            std::cout << "Esto se deberia imprimir 8 veces\n";
             if ((i.previousMovement.x == lastHumanMovement.x) &&
                 (i.previousMovement.y == lastHumanMovement.y))
             {
-
+                std::cout << "Una combinacion posible\n";
                 gameTree.front = i;
             }
             else
@@ -156,6 +161,16 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
                 //borrar el subtree
             }
         }
+    }
+    else {
+        std::cout << "Primera Vez\n";
+        gameTree.firstMove = true;
+        //gameTree.front = new Tree_Nodes_t;
+        gameTree.front.proposedGameModel = model; //copy the model
+        model.humanPlayer == PLAYER_BLACK
+            ? gameTree.aiPlayer = PLAYER_WHITE
+            : gameTree.aiPlayer = PLAYER_BLACK;
+        buildTree(gameTree.front, BRANCHES_LEVEL);
     }
     /**
      * We now need to trim the moves that won't be used, and advance the 
