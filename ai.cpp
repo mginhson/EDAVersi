@@ -17,23 +17,35 @@ unsigned int nodeCount = 0;
 
 
 
-#define MAX_DEPTH 4
-static float minMaxTraverse (GameModel model, float alpha, float beta, int remainingLevels)
+#define MAX_DEPTH 10
+
+typedef struct{
+    float value;
+    Square movement;
+}Pruning_t; 
+
+static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int remainingLevels);
+
+static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int remainingLevels)
 {
-    Pruning_t placeholder;
-
-    float bestScore;
-
-    if (remainingLevels == 0)
+    Pruning_t proposedPlay;    
+    if (nodeCount >= MAX_NODE_COUNT)
     {
-        //evaluate
+        
+    }
+    Pruning_t bestScore;
+
+    if (remainingLevels == 0 || nodeCount >= MAX_NODE_COUNT)
+    {
+        //evaluate and return;
     }
     
     //We have to minimize
     if (model.currentPlayer == model.humanPlayer)
     {
         float value;
-        bestScore =  std::numeric_limits<double>::infinity(); //-INF
+        bestScore.value =  std::numeric_limits<double>::infinity(); //-INF
+        bestScore.movement = GAME_INVALID_SQUARE;
         Moves validMovements;
         getValidMoves(model, validMovements);
         GameModel copiedModel = model;
@@ -41,9 +53,14 @@ static float minMaxTraverse (GameModel model, float alpha, float beta, int remai
         {
             copiedModel = model;
             playMove(copiedModel, movement);
-            value = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
-            bestScore = std::min(value, bestScore);
-            beta = std::min(beta, bestScore);
+            proposedPlay.movement = movement;
+            proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
+            
+            if (proposedPlay.value < bestScore.value)
+                bestScore = proposedPlay;
+            
+            if (beta < bestScore.value)
+                beta = bestScore.value;
 
             //AlphaBeta condition
             if (alpha >= beta)
@@ -55,7 +72,9 @@ static float minMaxTraverse (GameModel model, float alpha, float beta, int remai
     else //We have to maximize, it's AI player
     {
         float value;
-        bestScore = -std::numeric_limits<double>::infinity();
+        bestScore.value = -std::numeric_limits<double>::infinity();
+        bestScore.movement = GAME_INVALID_SQUARE; //Will always be replaced anyways
+
         Moves validMovements;
         getValidMoves (model, validMovements);
         GameModel copiedModel;
@@ -64,9 +83,13 @@ static float minMaxTraverse (GameModel model, float alpha, float beta, int remai
         {
             copiedModel = model;
             playMove (copiedModel,movement);
-            value = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
-            bestScore = std::max(bestScore, value);
-            alpha = std::max(alpha, bestScore);
+            proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
+            
+            if (proposedPlay.value > bestScore.value)
+                bestScore = proposedPlay;
+            
+            if (bestScore.value > alpha)
+                alpha = bestScore.value;
 
             if (alpha >= beta)
                 break;
@@ -116,11 +139,20 @@ static float evaluateNode(GameModel& currentModel)
 
 
 
-
+/**
+ * @param 
+ */
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
-    std::vector <int> v;
-    
+    nodeCount = 0;
+    /**
+     * Call maxMinTraverse with a fixed depth recursively, 
+     * each time starting on the new found best position 
+     */
+    while (nodeCount < MAX_NODE_COUNT)
+    {
+
+    }        
     
 }
 
