@@ -126,7 +126,7 @@ bool isEdge(int row, int col)  {
     return (row == 0 || row == BOARD_SIZE - 1 || col == 0 || col == BOARD_SIZE - 1);
 }
 
-    int evaluate(GameModel & state) {
+    int evaluateGameState(GameModel & state) {
         int score = 0;
         Player actualPlayer = getCurrentPlayer(state);
         Piece actualPiece = actualPlayer == PLAYER_BLACK ? PIECE_BLACK : PIECE_WHITE;
