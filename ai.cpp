@@ -106,17 +106,7 @@ const int EDGE_VALUE = 10;
 const int PIECE_VALUE = 1;
 const int MOBILITY_VALUE = 5;
 
-int countPieces(GameModel &state, int player) {
-    int count = 0;
-    for (int row = 0; row < BOARD_SIZE; row++) {
-        for (int col = 0; col < BOARD_SIZE; col++) {
-            if (board[row][col] == player) {
-                count++;
-            }
-        }
-    }
-    return count;
-}
+
 
 // Función para contar las jugadas válidas (movilidad)
 int countValidMoves(int player) {
