@@ -8,7 +8,7 @@
 #include <algorithm>
 
 #include "raylib.h"
-
+#include <iostream>
 #include "ai.h"
 #include "view.h"
 #include "controller.h"
@@ -66,7 +66,11 @@ bool updateView(GameModel &model)
     {
         // AI player
         Square square = getBestMove(model, lastHumanMovement);
-
+        if (!isSquareValid(square)) {
+            std::cout << "Movimiento invalido\n";
+            std::cout << square.x;
+            std::cout << square.y;
+        }
         playMove(model, square);
     }
 

@@ -17,8 +17,8 @@ unsigned int nodeCount = 0;
 
 bool isCorner(int row, int col);
 bool isEdge(int row, int col);
-int evaluateGameState(GameModel& state);
-#define MAX_DEPTH 4
+double evaluateGameState(GameModel& state);
+#define MAX_DEPTH 2
 
 typedef struct{
     float value;
@@ -118,8 +118,8 @@ bool isEdge(int row, int col)  {
     return (row == 0 || row == BOARD_SIZE - 1 || col == 0 || col == BOARD_SIZE - 1);
 }
 
-    int evaluateGameState(GameModel & state) {
-        int score = 0;
+    double evaluateGameState(GameModel & state) {
+        double score = 0;
         Player actualPlayer = getCurrentPlayer(state);
         Piece actualPiece = actualPlayer == PLAYER_BLACK ? PIECE_BLACK : PIECE_WHITE;
         Piece opponentPiece = actualPlayer == PLAYER_BLACK ? PIECE_WHITE : PIECE_BLACK;
@@ -190,7 +190,7 @@ Square getBestMove(GameModel &model, Square lastHumanMovement)
 
     getValidMoves(model, validMoves);
     
-    return validMoves.front();
+    return bestMove.movement;
         
 }
 
