@@ -68,7 +68,8 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
                 beta = bestScore.value;
 
             //AlphaBeta condition
-           
+           if (alpha > beta)
+            break;
             
 
         }
@@ -98,7 +99,9 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
                 if (bestScore.value > alpha)
                     alpha = bestScore.value;
 
-                
+                if (alpha > beta)
+                    break;
+
             }    
         }
         else //Either won or lost
