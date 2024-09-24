@@ -18,7 +18,7 @@ unsigned int nodeCount = 0;
 bool isCorner(int row, int col);
 bool isEdge(int row, int col);
 double evaluateGameState(GameModel& state);
-#define MAX_DEPTH 2
+#define MAX_DEPTH 5
 
 typedef struct{
     float value;
@@ -199,7 +199,7 @@ Square getBestMove(GameModel &model)
 {
     nodeCount = 0;
     Pruning_t bestMove;
-    bestMove = minMaxTraverse (model, -std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() , 3);     
+    bestMove = minMaxTraverse (model, -std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() , MAX_DEPTH);     
 
 
 

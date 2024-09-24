@@ -69,7 +69,7 @@ bool updateView(GameModel &model)
         if (!isSquareValid(square)) {
             std::cout << "Movimiento invalido\n";
             std::cout << square.x;
-            std::cout << square.y;
+            
         }
         playMove(model, square);
     }
