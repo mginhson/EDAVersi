@@ -44,11 +44,16 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
     if (model.currentPlayer == model.humanPlayer)
     {
         float value;
-        bestScore.value =  std::numeric_limits<double>::infinity(); //-INF
-        bestScore.movement = GAME_INVALID_SQUARE;
+
         Moves validMovements;
         getValidMoves(model, validMovements);
         GameModel copiedModel = model;
+
+        bestScore.value = std::numeric_limits<float>::infinity();
+        bestScore.movement = validMovements[0]; //Will always be replaced anyways
+        
+
+        
         for (auto movement : validMovements)
         {
             copiedModel = model;
@@ -59,12 +64,11 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
             if (proposedPlay.value < bestScore.value)
                 bestScore = proposedPlay;
             
-            if (beta < bestScore.value)
+            if (beta > bestScore.value)
                 beta = bestScore.value;
 
             //AlphaBeta condition
-            if (alpha >= beta)
-                break;
+           
             
 
         }
@@ -72,28 +76,39 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
     else //We have to maximize, it's AI player
     {
         float value;
-        bestScore.value = -std::numeric_limits<double>::infinity();
-        bestScore.movement = GAME_INVALID_SQUARE; //Will always be replaced anyways
+        
 
         Moves validMovements;
         getValidMoves (model, validMovements);
-        GameModel copiedModel;
-
-        for (auto movement : validMovements)
+        
+        if (validMovements.size() > 0)
         {
-            copiedModel = model;
-            playMove (copiedModel,movement);
-            proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
-            
-            if (proposedPlay.value > bestScore.value)
-                bestScore = proposedPlay;
-            
-            if (bestScore.value > alpha)
-                alpha = bestScore.value;
+            bestScore.value = -1 * std::numeric_limits<float>::infinity();
+            bestScore.movement = validMovements[0]; //Will always be replaced anyways
+            GameModel copiedModel;
+            for (auto movement : validMovements)
+            {
+                copiedModel = model;
+                playMove (copiedModel,movement);
+                proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
+                proposedPlay.movement = movement;
+                if (proposedPlay.value > bestScore.value)
+                    bestScore = proposedPlay;
+                
+                if (bestScore.value > alpha)
+                    alpha = bestScore.value;
 
-            if (alpha >= beta)
-                break;
+                
+            }    
         }
+        else //Either won or lost
+        {
+            int humanScore, aiScore;
+            aiScore = getScore (model, model.currentPlayer);
+            humanScore = getScore(model, model.humanPlayer);
+            
+        }
+        
     }
 
     return bestScore;
@@ -180,17 +195,19 @@ bool isEdge(int row, int col)  {
 /**
  * @param 
  */
-Square getBestMove(GameModel &model, Square lastHumanMovement)
+Square getBestMove(GameModel &model)
 {
     nodeCount = 0;
     Pruning_t bestMove;
-    bestMove = minMaxTraverse (model, 0, 0 , MAX_DEPTH);     
+    bestMove = minMaxTraverse (model, -std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() , 3);     
+
+
 
     Moves validMoves;
 
     getValidMoves(model, validMoves);
     
-    return validMoves.front();
+    return bestMove.movement;
         
 }
 
