@@ -28,11 +28,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
 
 static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int remainingLevels)
 {
-    Pruning_t proposedPlay;    
-    if (nodeCount >= MAX_NODE_COUNT)
-    {
-        
-    }
+    Pruning_t proposedPlay;   
     Pruning_t bestScore;
 
     if (remainingLevels == 0 || nodeCount >= MAX_NODE_COUNT)
