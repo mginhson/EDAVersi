@@ -6,6 +6,8 @@
  */
 
 #include <algorithm>
+#include <iostream>
+using namespace std;
 
 #include "raylib.h"
 
@@ -65,8 +67,8 @@ bool updateView(GameModel &model)
     else
     {
         // AI player
-        Square square = getBestMove(model, lastHumanMovement);
-
+        Square square = getBestMove(model);
+                
         playMove(model, square);
     }
 
