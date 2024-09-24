@@ -18,7 +18,7 @@ unsigned int nodeCount = 0;
 bool isCorner(int row, int col);
 bool isEdge(int row, int col);
 int evaluateGameState(GameModel& state);
-#define MAX_DEPTH 10
+#define MAX_DEPTH 4
 
 typedef struct{
     float value;
@@ -29,12 +29,15 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
 
 static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int remainingLevels)
 {
-    Pruning_t proposedPlay;   
+    Pruning_t proposedPlay;    
     Pruning_t bestScore;
 
     if (remainingLevels == 0 || nodeCount >= MAX_NODE_COUNT)
     {
-        //evaluate and return;
+        //The .movement member won't be used on this case
+        bestScore.movement = GAME_INVALID_SQUARE;
+        bestScore.value = evaluateGameState (model);
+        return bestScore;
     }
     
     //We have to minimize
@@ -104,13 +107,13 @@ const int PIECE_VALUE = 1;
 const int MOBILITY_VALUE = 5;
 
 
-// Funci髇 para verificar si una posici髇 es una esquina
+// Funci贸n para verificar si una posici贸n es una esquina
 bool isCorner(int row, int col) {
     return (row == 0 && col == 0) || (row == 0 && col == BOARD_SIZE - 1) ||
         (row == BOARD_SIZE - 1 && col == 0) || (row == BOARD_SIZE - 1 && col == BOARD_SIZE - 1);
 }
 
-// Funci髇 para verificar si una posici髇 es un borde
+// Funci贸n para verificar si una posici贸n es un borde
 bool isEdge(int row, int col)  {
     return (row == 0 || row == BOARD_SIZE - 1 || col == 0 || col == BOARD_SIZE - 1);
 }
@@ -132,7 +135,7 @@ bool isEdge(int row, int col)  {
                         score += EDGE_VALUE;    // Menor peso para los bordes
                     }
                     else {
-                        score += PIECE_VALUE;   // Peso b醩ico para una ficha com鷑
+                        score += PIECE_VALUE;   // Peso b谩sico para una ficha com煤n
                     }
                 }
                 else if (getBoardPiece(state, position) == opponentPiece) {
@@ -180,16 +183,14 @@ bool isEdge(int row, int col)  {
 Square getBestMove(GameModel &model, Square lastHumanMovement)
 {
     nodeCount = 0;
-    /**
-     * Call maxMinTraverse with a fixed depth recursively, 
-     * each time starting on the new found best position 
-     */
-    while (nodeCount < MAX_NODE_COUNT)
-    {
+    Pruning_t bestMove;
+    bestMove = minMaxTraverse (model, 0, 0 , MAX_DEPTH);     
 
-    }        
+    Moves validMoves;
+
+    getValidMoves(model, validMoves);
     
+    return validMoves.front();
+        
 }
-
-
 
