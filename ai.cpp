@@ -50,7 +50,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         GameModel copiedModel = model;
 
         bestScore.value = std::numeric_limits<float>::infinity();
-        bestScore.movement = validMovements[0]; //Will always be replaced anyways
+        
         
 
         
@@ -85,7 +85,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         if (validMovements.size() > 0)
         {
             bestScore.value = -1 * std::numeric_limits<float>::infinity();
-            bestScore.movement = validMovements[0]; //Will always be replaced anyways
+            
             GameModel copiedModel;
             for (auto movement : validMovements)
             {
