@@ -7,7 +7,7 @@
 
 #include <cstdlib>
 #include <limits>
-
+#include <iostream>
 
 #include "ai.h"
 #include "controller.h"
@@ -44,7 +44,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
     if (model.currentPlayer == model.humanPlayer)
     {
         float value;
-
+        
         Moves validMovements;
         getValidMoves(model, validMovements);
         GameModel copiedModel = model;
@@ -106,6 +106,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         }
         else //Either won or lost
         {
+            std::cout << "No valid movements\n";
             int humanScore, aiScore;
             aiScore = getScore (model, model.currentPlayer);
             humanScore = getScore(model, model.humanPlayer);
