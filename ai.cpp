@@ -62,7 +62,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         
         //The .movement member won't be used on this case
         bestScore.movement = GAME_INVALID_SQUARE;
-
+        std::cout << "Game over";
         unsigned int aiScore, humanScore;
         aiScore = getScore (model, model.aiPlayer);
         humanScore = getScore (model, model.humanPlayer);
@@ -119,6 +119,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         
         for (auto movement : validMovements)
         {
+            std::cout << "Chequeando";
             copiedModel = model;
             playMove(copiedModel, movement);
             proposedPlay.movement = movement;
