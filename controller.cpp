@@ -28,13 +28,13 @@ bool updateView(GameModel &model)
             if (isMousePointerOverPlayBlackButton())
             {
                 model.humanPlayer = PLAYER_BLACK;
-
+                model.aiPlayer = PLAYER_WHITE;
                 startModel(model);
             }
             else if (isMousePointerOverPlayWhiteButton())
             {
                 model.humanPlayer = PLAYER_WHITE;
-
+                model.aiPlayer = PLAYER_BLACK;
                 startModel(model);
             }
         }
