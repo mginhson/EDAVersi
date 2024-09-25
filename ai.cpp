@@ -118,10 +118,8 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         for (auto movement : validMovements)
         {
             copiedModel = model;
-            
             playMove(copiedModel, movement);
             proposedPlay.movement = movement;
-            
             proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
             
             if (proposedPlay.value < bestScore.value)
@@ -139,15 +137,17 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
     }
     else //We have to maximize, it's AI player
     {
+        
+        
         bestScore.value = MINUS_INFINITY_FLOAT;
             
         GameModel copiedModel;
         for (auto movement : validMovements)
         {
             copiedModel = model;
-            proposedPlay.movement = movement;
             playMove (copiedModel,movement);
             proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
+            proposedPlay.movement = movement;
             if (proposedPlay.value > bestScore.value)
                 bestScore = proposedPlay;
                 
@@ -252,6 +252,10 @@ Square getBestMove(GameModel &model)
     nodeCount = 0;
     Pruning_t bestMove;
     bestMove = minMaxTraverse (model, MINUS_INFINITY_FLOAT, PLUS_INFINITY_FLOAT, MAX_DEPTH);     
+
+
+
+
     
     return bestMove.movement;
         
