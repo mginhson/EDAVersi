@@ -50,7 +50,7 @@ struct GameModel
 
     Piece board[BOARD_SIZE][BOARD_SIZE];
 
-    Player humanPlayer;
+    Player humanPlayer, aiPlayer;
 };
 
 typedef std::vector<Square> Moves;

@@ -89,7 +89,7 @@ bool isSquareValid(Square square)
 void getValidMoves(GameModel& model, Moves& validMoves)
 {
 	// To-do: your code goes here...
-
+	validMoves.resize(0);
 	for (int y = 0; y < BOARD_SIZE; y++) {
 		for (int x = 0; x < BOARD_SIZE; x++)
 		{
@@ -143,7 +143,7 @@ void getValidMoves(GameModel& model, Moves& validMoves)
 					}
 
 					
-					
+									
 				}
 			}
 
