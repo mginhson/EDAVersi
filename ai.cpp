@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <limits>
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "ai.h"
 #include "controller.h"
@@ -25,8 +27,6 @@ unsigned int nodeCount = 0;
 
 bool isCorner(int row, int col);
 bool isEdge(int row, int col);
-double evaluateGameState(GameModel& state);
-#define MAX_DEPTH 2
 double evaluateGameState(GameModel& state);
 
 
@@ -122,11 +122,13 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
             std::cout << "Chequeando";
             copiedModel = model;
             playMove(copiedModel, movement);
-            proposedPlay.movement = movement;
             proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
             
             if (proposedPlay.value < bestScore.value)
-                bestScore = proposedPlay;
+            {
+                bestScore.value = proposedPlay.value;
+                bestScore.movement = movement;
+            }
             
             if (beta > bestScore.value)
                 beta = bestScore.value;
@@ -150,9 +152,13 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
             copiedModel = model;
             playMove (copiedModel,movement);
             proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
-            proposedPlay.movement = movement;
+            
+            
             if (proposedPlay.value > bestScore.value)
-                bestScore = proposedPlay;
+            {    
+                bestScore.value = proposedPlay.value;
+                bestScore.movement = movement;
+            }
                 
             if (bestScore.value > alpha)
                 alpha = bestScore.value;
@@ -189,7 +195,7 @@ bool isEdge(int row, int col)  {
 }
 
     double evaluateGameState(GameModel & state) {
-        double score = 0;
+        int score = 0;
         Player actualPlayer = getCurrentPlayer(state);
         Piece actualPiece = actualPlayer == PLAYER_BLACK ? PIECE_BLACK : PIECE_WHITE;
         Piece opponentPiece = actualPlayer == PLAYER_BLACK ? PIECE_WHITE : PIECE_BLACK;
@@ -255,11 +261,10 @@ Square getBestMove(GameModel &model)
     nodeCount = 0;
     Pruning_t bestMove;
     bestMove = minMaxTraverse (model, MINUS_INFINITY_FLOAT, PLUS_INFINITY_FLOAT, MAX_DEPTH);     
-
-
-
-
-    
+    if ((bestMove.movement.x == -1) || (bestMove.movement.y == -1))
+    {
+        printf("IT'S FAILING HERE, ON A GAMEOVER CALL");
+    }
     return bestMove.movement;
         
 }
