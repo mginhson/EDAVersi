@@ -18,7 +18,7 @@ unsigned int nodeCount = 0;
 bool isCorner(int row, int col);
 bool isEdge(int row, int col);
 double evaluateGameState(GameModel& state);
-#define MAX_DEPTH 8
+#define MAX_DEPTH 2
 
 typedef struct{
     float value;
@@ -50,7 +50,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         GameModel copiedModel = model;
 
         bestScore.value = std::numeric_limits<float>::infinity();
-        bestScore.movement = validMovements[0]; //Will always be replaced anyways
+        
         
 
         
@@ -85,7 +85,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         if (validMovements.size() > 0)
         {
             bestScore.value = -1 * std::numeric_limits<float>::infinity();
-            bestScore.movement = validMovements[0]; //Will always be replaced anyways
+            
             GameModel copiedModel;
             for (auto movement : validMovements)
             {
