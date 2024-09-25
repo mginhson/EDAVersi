@@ -7,7 +7,9 @@
 
 #include <cstdlib>
 #include <limits>
-
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "ai.h"
 #include "controller.h"
@@ -25,7 +27,7 @@ unsigned int nodeCount = 0;
 
 bool isCorner(int row, int col);
 bool isEdge(int row, int col);
-int evaluateGameState(GameModel& state);
+double evaluateGameState(GameModel& state);
 
 
 typedef struct{
@@ -119,11 +121,13 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
         {
             copiedModel = model;
             playMove(copiedModel, movement);
-            proposedPlay.movement = movement;
             proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
             
             if (proposedPlay.value < bestScore.value)
-                bestScore = proposedPlay;
+            {
+                bestScore.value = proposedPlay.value;
+                bestScore.movement = movement;
+            }
             
             if (beta > bestScore.value)
                 beta = bestScore.value;
@@ -147,9 +151,13 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
             copiedModel = model;
             playMove (copiedModel,movement);
             proposedPlay = minMaxTraverse(copiedModel, alpha, beta, remainingLevels - 1);
-            proposedPlay.movement = movement;
+            
+            
             if (proposedPlay.value > bestScore.value)
-                bestScore = proposedPlay;
+            {    
+                bestScore.value = proposedPlay.value;
+                bestScore.movement = movement;
+            }
                 
             if (bestScore.value > alpha)
                 alpha = bestScore.value;
@@ -185,7 +193,7 @@ bool isEdge(int row, int col)  {
     return (row == 0 || row == BOARD_SIZE - 1 || col == 0 || col == BOARD_SIZE - 1);
 }
 
-    int evaluateGameState(GameModel & state) {
+    double evaluateGameState(GameModel & state) {
         int score = 0;
         Player actualPlayer = getCurrentPlayer(state);
         Piece actualPiece = actualPlayer == PLAYER_BLACK ? PIECE_BLACK : PIECE_WHITE;
@@ -252,11 +260,10 @@ Square getBestMove(GameModel &model)
     nodeCount = 0;
     Pruning_t bestMove;
     bestMove = minMaxTraverse (model, MINUS_INFINITY_FLOAT, PLUS_INFINITY_FLOAT, MAX_DEPTH);     
-
-
-
-
-    
+    if ((bestMove.movement.x == -1) || (bestMove.movement.y == -1))
+    {
+        printf("IT'S FAILING HERE, ON A GAMEOVER CALL");
+    }
     return bestMove.movement;
         
 }
