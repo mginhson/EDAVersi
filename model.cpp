@@ -160,7 +160,7 @@ bool playMove(GameModel& model, Square move)
 		(getCurrentPlayer(model) == PLAYER_WHITE)
 		? PIECE_WHITE
 		: PIECE_BLACK;
-
+	
 	setBoardPiece(model, move, piece);
 
 
