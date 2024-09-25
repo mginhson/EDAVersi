@@ -40,6 +40,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
 static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int remainingLevels)
 {
 
+    std::cout << "Traversing\n";
     nodeCount += 1; //We are traversing a new node
 
     Pruning_t proposedPlay;    
@@ -261,7 +262,7 @@ Square getBestMove(GameModel &model)
     nodeCount = 0;
     Pruning_t bestMove;
     bestMove = minMaxTraverse (model, MINUS_INFINITY_FLOAT, PLUS_INFINITY_FLOAT, MAX_DEPTH);     
-    if ((bestMove.movement.x == -1) || (bestMove.movement.y == -1))
+    if ((bestMove.movement.x < 0) || (bestMove.movement.y > 7))
     {
         printf("IT'S FAILING HERE, ON A GAMEOVER CALL");
     }
