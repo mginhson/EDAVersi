@@ -8,6 +8,7 @@
 #include "raylib.h"
 
 #include "model.h"
+#include "iostream"
 
 void initModel(GameModel& model)
 {
@@ -137,9 +138,9 @@ void getValidMoves(GameModel& model, Moves& validMoves)
 								}
 							}
 							// Si la pieza es blanca avanzo en la dirección
-							//directionalSquare = { x + (steps + 2) * i, y + (steps + 2) * j };
-						directionalSquare.x += i;
-						directionalSquare.y += j;
+							directionalSquare.x += i;
+							directionalSquare.y += j;
+
 						
 					}
 						
@@ -155,12 +156,13 @@ void getValidMoves(GameModel& model, Moves& validMoves)
 
 bool playMove(GameModel& model, Square move)
 {
+	
 	// Set game piece
 	Piece piece =
 		(getCurrentPlayer(model) == PLAYER_WHITE)
 		? PIECE_WHITE
 		: PIECE_BLACK;
-
+	if (!isSquareValid(move)) std::cout << "Se pudrio todo\n";
 	setBoardPiece(model, move, piece);
 
 
@@ -205,7 +207,10 @@ bool playMove(GameModel& model, Square move)
 				Piece pointingPiece = getBoardPiece(model, directionalSquare);
 				
 				if (pointingPiece == PIECE_EMPTY)
+				{
 					exitFlag = 1;
+					continue ;
+				}	
 				else if (pointingPiece == playerColor)
 				{
 					exitFlag = 1;
@@ -227,9 +232,10 @@ bool playMove(GameModel& model, Square move)
 				directionalSquare.x += i;
 				directionalSquare.y += j;
 				
-				while(getBoardPiece(model, directionalSquare) != playerColor)
+				while((isSquareValid(directionalSquare)) && (getBoardPiece(model, directionalSquare) != playerColor))
 				{
 					setBoardPiece(model, directionalSquare, playerColor);
+					std::cout << directionalSquare.x;
 					directionalSquare.x += i;
 					directionalSquare.y += j;
 				}
