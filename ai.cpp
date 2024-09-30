@@ -17,24 +17,50 @@
 
 
 #define MAX_NODE_COUNT 100000
-#define MAX_DEPTH 5
+#define MAX_DEPTH 8
 #define MINUS_INFINITY_FLOAT ( (float)-1 * std::numeric_limits<float>::infinity()) 
 #define PLUS_INFINITY_FLOAT ( (float)std::numeric_limits<float>::infinity())
 
 
-
+//Global node count
 unsigned int nodeCount = 0;
 
+/**
+ * @brief Checks if a given coordinate is a corner on the board
+ * @param row: the given row
+ * @param column: the given column 
+ * @return true if the square is a corner on the board
+ */
 bool isCorner(int row, int col);
+
+/**
+ * @brief Checks if a given coordinate is an edge on the board
+ * @param row: the given row
+ * @param col: the given column
+ * @return true if the square belongs to an edge
+ */
 bool isEdge(int row, int col);
+
+/**
+ * @brief 
+ */
 double evaluateGameState(GameModel& state);
 double evaluateGameStateTable(GameModel& state);
 
+/**
+ * This is the kind of data the minMax functions will return,
+ * it contains both the best movement it can be made from the 
+ * give position, plus it's evaluation value.
+ */
 typedef struct {
 	float value;
 	Square movement;
 }Pruning_t;
 
+/**
+ * @brief returns the best evaluated movement for a given position. It does so by 
+ *        traversing a game tree 
+ */
 static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int remainingLevels);
 
 static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int remainingLevels)
@@ -77,7 +103,7 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 	}
 
 	/**
-	 * We need to end the traverse
+	 * If we reached the desired depth, we should prune it too.
 	 */
 	if (remainingLevels == 0 || nodeCount >= MAX_NODE_COUNT)
 	{
@@ -95,25 +121,15 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 	}
 
 
-
 	/**
-	 * If neither condition was met, we keep on traversing the tree
-	 */
-
-	 /**
-	  * If the game hasn't ended, but the player supposed to play doesn't have
-	  * any available movement, we have to give control back to the opposing player
-	  */
-	  //CHECK THIS, because the player is automatically swapped again on playMove
-
-
-	  /**
-	   * If none of the above conditions are met, we keep on traversing the tree
-	   */
+     * If none of the above conditions are met, we keep
+     * on traversing the tree.
+     */
 
 	Moves validMovements;
 	getValidMoves(model, validMovements);
 	bestScore.movement = validMovements.front();
+
 	if (model.currentPlayer == model.humanPlayer)
 	{
 		/**
@@ -140,7 +156,7 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 			if (beta > bestScore.value)
 				beta = bestScore.value;
 
-			//AlphaBeta condition
+			//AlphaBeta condition, this branch won't be chosen, no need to keep evaluating.
 			if (alpha > beta)
 				break;
 
@@ -170,13 +186,11 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 			if (bestScore.value > alpha)
 				alpha = bestScore.value;
 
+            //AlphaBeta condition, this branch won't be chosen, no need to keep evaluating.
 			if (alpha > beta)
 				break;
 
 		}
-
-
-
 	}
 	
 	return bestScore;
@@ -231,9 +245,6 @@ double evaluateGameStateTable(GameModel& state) {
 	return score;
 }
 
-/**
- * @param
- */
 Square getBestMove(GameModel& model)
 {
 	nodeCount = 0;

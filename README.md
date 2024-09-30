@@ -25,12 +25,17 @@
 
 ## Documentación adicional
     https://medium.com/@joancerretanids/aprendizaje-por-refuerzo-rl-capítulo-4-min-max-y-alpha-beta-pruning-parte-2-alpha-beta-c460d6e973a6
+    
+    https://www.scirp.org/journal/paperinformation?paperid=90972#return5
 
+    
 
 
 
 ## Bonus points
 
  * SELFPLAY: 
-    Implementamos la funcionalidad de self play para poder evaluar heurísticas en el 
-    caso 
+    Implementamos la funcionalidad de self play para poder evaluar heurísticas entre sí. 
+    Para hacerlo, primero modificamos el módulo controller para que, con una macro, SELFPLAY, cambie a usar getBestMove para el jugador humano, logrando así que jueguen automáticamente. También agregamos el campo originalCurrentPlayer, que solo puede ser modificado por un Setter, que mantiene guardado el currentPlayer de la raíz del árbol. De esta forma, al llegar a un punto donde sea momento de llamar a la función heurísitica, dependiendo de este nuevo campo, podemos llamar a una de dos distintas. De esta manera, en SelfPlay, humanPlayer y aiPlayer usan estrategias diferentes, y así podemos efectivamente testearlas entre sí.
+ * Alpha Beta Pruning: Implementamos la poda del árbol con Alpha Beta pruning, estudiando los 
+   artículos en la sección de Documentación Adicional.
