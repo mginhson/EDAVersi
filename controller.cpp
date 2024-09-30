@@ -44,7 +44,10 @@ bool updateView(GameModel &model)
     }
     else if (model.currentPlayer == model.humanPlayer)
     {
-        setOriginalCurrentPlayer(model, model.humanPlayer);    
+        //Call the setter of .originalCurrentPlayer
+        setOriginalCurrentPlayer(model, model.humanPlayer);
+
+        //If self play is enabled, use getBestMove    
         if (SELFPLAY)
         {
             Square square = getBestMove(model);    
@@ -79,10 +82,10 @@ bool updateView(GameModel &model)
     }
     else
     {
-        // AI player
+        //Call the setter of .originalCurrentPlayer
+
         setOriginalCurrentPlayer(model, model.aiPlayer);
         Square square = getBestMove(model);
-        
         
         playMove(model, square);
     }

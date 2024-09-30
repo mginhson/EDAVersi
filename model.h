@@ -91,7 +91,6 @@ Player getOriginalCurrentPlayer(GameModel &model);
 /**
  * @brief Setter of .originalCurrentPlayer
  * @param model The game model.
- * @return PLAYER_WHITE or PLAYER_BLACK.
  */
 void setOriginalCurrentPlayer(GameModel &model, Player player);
 
