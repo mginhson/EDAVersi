@@ -16,8 +16,8 @@
 #include "model.h"
 
 
-#define MAX_NODE_COUNT 10000
-#define MAX_DEPTH 10
+#define MAX_NODE_COUNT 100000
+#define MAX_DEPTH 7
 #define MINUS_INFINITY_FLOAT ( (float)-1 * std::numeric_limits<float>::infinity()) 
 #define PLUS_INFINITY_FLOAT ( (float)std::numeric_limits<float>::infinity())
 
@@ -172,7 +172,7 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 
 
 	}
-
+	
 	return bestScore;
 }
 
@@ -195,11 +195,18 @@ bool isCorner(int row, int col) {
 bool isEdge(int row, int col) {
 	return (row == 0 || row == BOARD_SIZE - 1 || col == 0 || col == BOARD_SIZE - 1);
 }
+int squareValues[8][8] = {
+					{ 100, -10,	10,	10,	10,	10, -10,100 },
+					{-10 ,-50,	1,	1,	1,	1, -50, -10},
+					{ 10,	1,	5,	5,	5,	5,	1,	10 },
+					{10,	1,	5,	5,	5,	5,	1,	10},
+					{ 10,	1,	5,	5,	5,	5,	1,	10 },
+					{10,	1,	5,	5,	5,	5,	1,	10},
+					{ -10 - 50,	1,	1,	1,	1 - 50 - 10 },
+					{ 100, -10,	10,	10,	10,	10, -10,100 }
+};
 double getSquareValue(Square square) {
-	if (square.x >= 3 && square.x <= 4 && square.y >= 3 && square.y <= 4) return 10;
-	else if (square.x >= 2 && square.x <= 5 && square.y >= 2 && square.y <= 5) return 5;
-	else if (square.x >= 1 && square.x <= 6 && square.y >= 1 && square.y <= 6) return 1;
-	else return 0;
+	return squareValues[square.x][square.y];
 	
 }
 double evaluateGameState(GameModel& state) {
@@ -212,27 +219,11 @@ double evaluateGameState(GameModel& state) {
 		for (int col = 0; col < BOARD_SIZE; col++) {
 			Square position = { row, col };
 			if (getBoardPiece(state, position) == actualPiece) {
-				if (isCorner(row, col)) {
-					score += CORNER_VALUE;  // Mayor peso para las esquinas
-				}
-				else if (isEdge(row, col)) {
-					score += EDGE_VALUE;    // Menor peso para los bordes
-				}
-				else {
-					score += 1;   // Peso básico para una ficha común
-				}
+				score += getSquareValue(position);
 			}
 			else if (getBoardPiece(state, position) == opponentPiece) {
 				// Restamos puntos por las piezas del oponente
-				if (isCorner(row, col)) {
-					score -= CORNER_VALUE;
-				}
-				else if (isEdge(row, col)) {
-					score -= EDGE_VALUE;
-				}
-				else {
-					score -= 1;
-				}
+				score -= getSquareValue(position);
 			}
 		}
 	}
@@ -246,7 +237,7 @@ double evaluateGameState(GameModel& state) {
 	state.currentPlayer = actualPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK;
 	getValidMoves(state, validMoves);
 	state.currentPlayer = actualPlayer;
-
+	
 
 	//score += (validMoves.size() - validOpponentMoves.size()) * MOBILITY_VALUE;
 
@@ -273,6 +264,7 @@ Square getBestMove(GameModel& model)
 	{
 		printf("IT'S FAILING HERE, ON A GAMEOVER CALL");
 	}
+	std::cout << bestMove.value;
 	return bestMove.movement;
 
 }
