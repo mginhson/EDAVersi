@@ -235,7 +235,7 @@ bool playMove(GameModel& model, Square move)
 				while((isSquareValid(directionalSquare)) && (getBoardPiece(model, directionalSquare) != playerColor))
 				{
 					setBoardPiece(model, directionalSquare, playerColor);
-					std::cout << directionalSquare.x;
+					
 					directionalSquare.x += i;
 					directionalSquare.y += j;
 				}

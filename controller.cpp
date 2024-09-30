@@ -68,9 +68,7 @@ bool updateView(GameModel &model)
     {
         // AI player
         Square square = getBestMove(model);
-        if (!isSquareValid(square)) {
-            std::cout << "MUERTO\n";
-        }
+        
         
         playMove(model, square);
     }
