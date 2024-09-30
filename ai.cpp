@@ -208,7 +208,7 @@ int squareValues[8][8] = {
 double getSquareValue(Square square) {
 	return squareValues[square.x][square.y];
 	
-}
+} 
 double evaluateGameState(GameModel& state) {
 	int score = 0;
 	Player actualPlayer = getCurrentPlayer(state);
