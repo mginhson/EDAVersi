@@ -93,7 +93,7 @@ Player getOriginalCurrentPlayer(GameModel &model);
  * @param model The game model.
  * @return PLAYER_WHITE or PLAYER_BLACK.
  */
-Player setOriginalCurrentPlayer(GameModel &model, Player player);
+void setOriginalCurrentPlayer(GameModel &model, Player player);
 
 /**
  * @brief Returns the model's current score.
