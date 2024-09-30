@@ -42,6 +42,17 @@ Player getCurrentPlayer(GameModel& model)
 	return model.currentPlayer;
 }
 
+Player getOriginalCurrentPlayer(GameModel& model)
+{
+	return model.originalCurrentPlayer;
+}
+
+void setOriginalCurrentPlayer(GameModel& model, Player player)
+{
+	model.currentPlayer = player;
+
+	return ;
+}
 int getScore(GameModel& model, Player player)
 {
 	int score = 0;
