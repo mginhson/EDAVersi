@@ -1,7 +1,7 @@
 /**
  * @brief Implements the Reversi game model
  * @author Marc S. Ressl
- *
+ * @modifiers Sosa Mateo, Ginhson Matteo
  * @copyright Copyright (c) 2023-2024
  */
 

@@ -1,7 +1,7 @@
 /**
  * @brief Implements the Reversi game controller
  * @author Marc S. Ressl
- *
+ * @modifiers Sosa Mateo, Ginhson Matteo
  * @copyright Copyright (c) 2023-2024
  */
 
@@ -14,6 +14,8 @@ using namespace std;
 #include "ai.h"
 #include "view.h"
 #include "controller.h"
+
+#define SELFPLAY true
 
 bool updateView(GameModel &model)
 {
@@ -41,28 +43,37 @@ bool updateView(GameModel &model)
     }
     else if (model.currentPlayer == model.humanPlayer)
     {
-        if (IsMouseButtonPressed(0))
+        if (SELFPLAY)
         {
-            // Human player
-            Square square = getSquareOnMousePointer();
-
-            if (isSquareValid(square))
+            Square square = getBestMove(model);    
+            playMove(model, square);
+        }
+        else
+        {
+            if (IsMouseButtonPressed(0))
             {
-                Moves validMoves;
-                getValidMoves(model, validMoves);
+                // Human player
+                Square square = getSquareOnMousePointer();
 
-                // Play move if valid
-                for (auto move : validMoves)
+                if (isSquareValid(square))
                 {
-                    if ((square.x == move.x) &&
-                        (square.y == move.y))
-                        {
-                            playMove(model, square);
-                            lastHumanMovement = square;
-                        }
+                    Moves validMoves;
+                    getValidMoves(model, validMoves);
+
+                    // Play move if valid
+                    for (auto move : validMoves)
+                    {
+                        if ((square.x == move.x) &&
+                            (square.y == move.y))
+                            {
+                                playMove(model, square);
+                                lastHumanMovement = square;
+                            }
+                    }
                 }
             }
         }
+        
     }
     else
     {

@@ -12,7 +12,7 @@
 
 /**
  * @brief Updates the game view.
- *
+ * @modifiers Sosa Mateo, Ginhson Matteo
  * @param The game model.
  * @return Should the view be closed?
  */
