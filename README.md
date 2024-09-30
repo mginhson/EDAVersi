@@ -15,6 +15,10 @@
 
     para entender tanto miniMax, como alpha beta pruning, y la implementación de ambos. Nos
     guiamos también con el pseudocódigo que se encuentra al final del artículo, implementándolo en C++ y con el esqueleto para adaptarlo al Reversi. Nuestra implementación recorre el árbol con BFS sin crearlo per se, aprovechando el Stack de las funciones. Para cada jugada posible, la función minMax se llama recursivamente a si misma, cada vez con uno de todos los movimientos posibles, y se queda con el mejor.
+    Para la función heurística que evalúa el tablero, nos basamos en la idea de que la idea es que esta idea tenga un gran conocimiento del juego, y basándonos en Stockfish, el Engine de ajedrez, el cual
+    utiliza una Red Neuronal que va aprendiendo. Al no tener los conocimientos necesarios para implementar una Red Neural, y no tener los años de experiencia jugando al Reversi para poder producir una 
+    estrategia genuinamente buena, emulamos la función de Red Neuronal con la ayuda de ChatGPT, al cual le fuimos pidiendo distintas estrategias para evaluar el tablero. Con la ayuda de SelfPlay, contrastamos
+    estas estrategias entre sí, y finalmente contra una aplicación para celulares en el nivel más alto. Así, con prueba y error, fuimos depurando hasta quedarnos con la mejor heurística.
 
 ## Parte 3: Poda del árbol
 
