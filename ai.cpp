@@ -107,7 +107,7 @@ static Pruning_t minMaxTraverse (GameModel model, float alpha, float beta, int r
     
     Moves validMovements;
     getValidMoves(model, validMovements);
-    
+    bestScore.movement = validMovements.front();
     if (model.currentPlayer == model.humanPlayer)
     {
         /**

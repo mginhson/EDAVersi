@@ -162,7 +162,7 @@ bool playMove(GameModel& model, Square move)
 		(getCurrentPlayer(model) == PLAYER_WHITE)
 		? PIECE_WHITE
 		: PIECE_BLACK;
-	if (!isSquareValid(move)) std::cout << "Se pudrio todo\n";
+	
 	setBoardPiece(model, move, piece);
 
 
