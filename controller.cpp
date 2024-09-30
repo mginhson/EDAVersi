@@ -15,7 +15,7 @@ using namespace std;
 #include "view.h"
 #include "controller.h"
 
-#define SELFPLAY true
+#define SELFPLAY false
 
 bool updateView(GameModel &model)
 {

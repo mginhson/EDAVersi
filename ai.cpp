@@ -10,14 +10,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-
+ 
 #include "ai.h"
 #include "controller.h"
 #include "model.h"
 
 
 #define MAX_NODE_COUNT 100000
-#define MAX_DEPTH 7
+#define MAX_DEPTH 5
 #define MINUS_INFINITY_FLOAT ( (float)-1 * std::numeric_limits<float>::infinity()) 
 #define PLUS_INFINITY_FLOAT ( (float)std::numeric_limits<float>::infinity())
 
