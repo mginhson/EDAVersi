@@ -23,6 +23,7 @@ bool updateView(GameModel &model)
     if (WindowShouldClose())
         return false;
 
+
     if (model.gameOver)
     {
         if (IsMouseButtonPressed(0))
@@ -43,6 +44,7 @@ bool updateView(GameModel &model)
     }
     else if (model.currentPlayer == model.humanPlayer)
     {
+        setOriginalCurrentPlayer(model, model.humanPlayer);    
         if (SELFPLAY)
         {
             Square square = getBestMove(model);    
@@ -78,6 +80,7 @@ bool updateView(GameModel &model)
     else
     {
         // AI player
+        setOriginalCurrentPlayer(model, model.aiPlayer);
         Square square = getBestMove(model);
                 
         playMove(model, square);

@@ -44,6 +44,7 @@ struct GameModel
     bool gameOver;
 
     Player currentPlayer;
+    Player originalCurrentPlayer;
 
     double playerTime[2];
     double turnTimer;
@@ -76,6 +77,23 @@ void startModel(GameModel &model);
  * @return PLAYER_WHITE or PLAYER_BLACK.
  */
 Player getCurrentPlayer(GameModel &model);
+
+/**
+ * @brief Returns the model's original current player. This value
+ * can't be modified by playMove, making it inmune to the recursive
+ * nature of it.
+ *
+ * @param model The game model.
+ * @return PLAYER_WHITE or PLAYER_BLACK.
+ */
+Player getOriginalCurrentPlayer(GameModel &model);
+
+/**
+ * @brief Setter of .originalCurrentPlayer
+ * @param model The game model.
+ * @return PLAYER_WHITE or PLAYER_BLACK.
+ */
+Player setOriginalCurrentPlayer(GameModel &model, Player player);
 
 /**
  * @brief Returns the model's current score.
