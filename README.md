@@ -11,7 +11,7 @@
 
 ## Parte 2: Implementación del motor de IA
 
-    Nos basamos en la explicación de este artículo de Medium
+    Nos basamos en la explicación de el artículo de Medium adjunto en la sección de Documentación Adicional.
 
     para entender tanto miniMax, como alpha beta pruning, y la implementación de ambos. Nos
     guiamos también con el pseudocódigo que se encuentra al final del artículo, implementándolo en C++ y con el esqueleto para adaptarlo al Reversi. Nuestra implementación recorre el árbol con BFS sin crearlo per se, aprovechando el Stack de las funciones. Para cada jugada posible, la función minMax se llama recursivamente a si misma, cada vez con uno de todos los movimientos posibles, y se queda con el mejor.
