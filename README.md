@@ -31,4 +31,6 @@
 
 ## Bonus points
 
-[Aquí.]
+ * SELFPLAY: 
+    Implementamos la funcionalidad de self play para poder evaluar heurísticas en el 
+    caso 
