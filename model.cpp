@@ -49,7 +49,7 @@ Player getOriginalCurrentPlayer(GameModel& model)
 
 void setOriginalCurrentPlayer(GameModel& model, Player player)
 {
-	model.currentPlayer = player;
+	model.originalCurrentPlayer = player;
 
 	return ;
 }

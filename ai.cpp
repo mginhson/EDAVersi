@@ -16,8 +16,8 @@
 #include "model.h"
 
 
-#define MAX_NODE_COUNT 100000
-#define MAX_DEPTH 5
+#define MAX_NODE_COUNT 1000000
+#define MAX_DEPTH 8
 #define MINUS_INFINITY_FLOAT ( (float)-1 * std::numeric_limits<float>::infinity()) 
 #define PLUS_INFINITY_FLOAT ( (float)std::numeric_limits<float>::infinity())
 
@@ -42,7 +42,7 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 
 
 	nodeCount += 1; //We are traversing a new node
-
+	if (nodeCount == 999999) std::cout << "Supero\n";
 	Pruning_t proposedPlay;
 	Pruning_t bestScore;
 
@@ -83,11 +83,14 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
 	{
 		//The .movement member won't be used on this case
 		bestScore.movement = GAME_INVALID_SQUARE;
+		//std::cout << model.originalCurrentPlayer;
+		//std::cout << "\n";
 		if (model.originalCurrentPlayer == model.humanPlayer) {
-			bestScore.value = evaluateGameState(model);
+			bestScore.value = evaluateGameStateTable(model);
 		}
 		else if (model.originalCurrentPlayer == model.aiPlayer) {
-			bestScore.value = evaluateGameStateTable(model);
+			bestScore.value = evaluateGameState(model);
+			//std::cout << "aaaaaaa";
 		}
 		
 
@@ -186,8 +189,8 @@ int squareValues[8][8] = {
 					{ 100, -10,	10,	10,	10,	10, -10,100 },
 					{-10 ,-50,	1,	1,	1,	1, -50, -10},
 					{ 10, 1,	5,	5,	5,	5,	1,	10 },
-					{10, 1,	5,	5,	5,	5,	1,	10},
-					{ 10,	1,	5,	5,	5,	5,	1,	10 },
+					{10, 1,	5,	30,	30,	5,	1,	10},
+					{ 10,	1,	30,	30,	5,	5,	1,	10 },
 					{10,	1,	5,	5,	5,	5,	1,	10},
 					{ -10 - 50,	1,	1,	1,	1 - 50 - 10 },
 					{ 100, -10,	10,	10,	10,	10, -10,100 }
@@ -198,9 +201,9 @@ double getSquareValue(Square square) {
 } 
 double evaluateGameStateTable(GameModel& state) {
 	int score = 0;
-	Player actualPlayer = getCurrentPlayer(state);
-	Piece actualPiece = actualPlayer == PLAYER_BLACK ? PIECE_BLACK : PIECE_WHITE;
-	Piece opponentPiece = actualPlayer == PLAYER_BLACK ? PIECE_WHITE : PIECE_BLACK;
+	Player originalPlayer = state.originalCurrentPlayer;
+	Piece actualPiece = (originalPlayer == PLAYER_BLACK) ? PIECE_BLACK : PIECE_WHITE;
+	Piece opponentPiece = originalPlayer == PLAYER_BLACK ? PIECE_WHITE : PIECE_BLACK;
 	// Factor 1: Control de las esquinas y bordes
 	for (int row = 0; row < BOARD_SIZE; row++) {
 		for (int col = 0; col < BOARD_SIZE; col++) {
@@ -221,9 +224,9 @@ double evaluateGameStateTable(GameModel& state) {
 	score += validMoves.size();
 
 	Moves validOpponentMoves;
-	state.currentPlayer = actualPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK;
+	state.currentPlayer = originalPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK;
 	getValidMoves(state, validMoves);
-	state.currentPlayer = actualPlayer;
+	state.currentPlayer = originalPlayer;
 	
 
 	//score += (validMoves.size() - validOpponentMoves.size()) * MOBILITY_VALUE;
@@ -249,7 +252,7 @@ Square getBestMove(GameModel& model)
 }
 
 // Definimos algunos pesos para los distintos factores
-const int CORNER_VALUE = 100;
+const int CORNER_VALUE = 125;
 const int EDGE_VALUE = 10;
 const int PIECE_VALUE = 1;
 const int MOBILITY_VALUE = 5;
@@ -268,9 +271,9 @@ bool isEdge(int row, int col) {
 
 double evaluateGameState(GameModel& state) {
 	int score = 0;
-	Player actualPlayer = getCurrentPlayer(state);
-	Piece actualPiece = actualPlayer == PLAYER_BLACK ? PIECE_BLACK : PIECE_WHITE;
-	Piece opponentPiece = actualPlayer == PLAYER_BLACK ? PIECE_WHITE : PIECE_BLACK;
+	Player originalPlayer = state.originalCurrentPlayer;
+	Piece actualPiece = (originalPlayer == PLAYER_BLACK) ? PIECE_BLACK : PIECE_WHITE;
+	Piece opponentPiece = originalPlayer == PLAYER_BLACK ? PIECE_WHITE : PIECE_BLACK;
 	// Factor 1: Control de las esquinas y bordes
 	for (int row = 0; row < BOARD_SIZE; row++) {
 		for (int col = 0; col < BOARD_SIZE; col++) {
@@ -302,6 +305,7 @@ double evaluateGameState(GameModel& state) {
 	}
 
 	// Factor 2: Movilidad
+	/*
 	Moves validMoves;
 	getValidMoves(state, validMoves);
 	score += validMoves.size();
@@ -310,7 +314,7 @@ double evaluateGameState(GameModel& state) {
 	state.currentPlayer = actualPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK;
 	getValidMoves(state, validMoves);
 	state.currentPlayer = actualPlayer;
-
+	*/
 
 	//score += (validMoves.size() - validOpponentMoves.size()) * MOBILITY_VALUE;
 
