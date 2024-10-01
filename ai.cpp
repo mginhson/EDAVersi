@@ -54,8 +54,8 @@ static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int re
  *        traversing a game tree
  *
  * @param model, describes a specific game situation
- * @param alpha, value of the alpha-beta prunning that should be increased
- * @param beta, value of the alpha-beta prunning that should be decreased
+ * @param alpha, value of the alpha-beta pruning that should be increased
+ * @param beta, value of the alpha-beta pruning that should be decreased
  * @param remainingLevels, counter of how deep we have to go
  */
 static Pruning_t minMaxTraverse(GameModel model, float alpha, float beta, int remainingLevels)
