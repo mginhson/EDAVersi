@@ -12,7 +12,7 @@
 
 /**
  * @brief Returns the best move for a certain position.
- *
+ * @param model: the game's representation of a given position
  * @return The best move.
  */
 Square getBestMove(GameModel &model);
